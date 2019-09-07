@@ -8,6 +8,9 @@
       "version": "6.1.0"
     }
   },
+  "scripts": {
+    "backend": "yarn nodemon server"
+  },
   "description": "NativeScript Application",
   "license": "SEE LICENSE IN <your-license-filename>",
   "repository": "<fill-your-repository-here>",
@@ -16,8 +19,10 @@
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
+    "mongoose": "^5.6.13",
     "nativescript-theme-core": "~1.0.6",
     "nativescript-vue": "~2.4.0",
+    "nodemon": "^1.19.2",
     "tns-core-modules": "~6.1.0",
     "vuex": "^3.1.1"
   },
