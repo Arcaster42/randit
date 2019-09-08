@@ -27,7 +27,8 @@ export default {
             .then((response) => {
                 if (response.data.err) alert(response.data.err)
                 else {
-                    console.log(response.data)
+                    this.$store.commit('setUser', response.data)
+                    this.$store.commit('setView', 'Hub')
                 }
             })
             .catch((err) => alert(err))
