@@ -6,6 +6,7 @@
         <StackLayout>
             <Login v-if="getView==='Login'"/>
             <Register v-if="getView==='Register'"/>
+            <Hub v-if="getView==='Hub'"/>
         </StackLayout>
     </Page>
 </template>
@@ -13,10 +14,12 @@
 <script>
 import Login from './Login'
 import Register from './Register'
+import Hub from './Hub'
     export default {
         components: {
             Login,
-            Register
+            Register,
+            Hub
         },
         computed: {
             getView() {
@@ -24,9 +27,7 @@ import Register from './Register'
             }
         },
         methods: {
-            loginTap() {
-                this.$store.commit('setView', 'Board')
-            }
+
         }
     };
 </script>
