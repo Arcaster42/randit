@@ -9,13 +9,24 @@ const port = process.env.PORT || 3000
 //Database
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:27017/randit', { useNewUrlParser: true })
+const db = mongoose.connection
+db.once('open', () => console.log('Connected to DB'))
 const { UserModel } = require('./database/models')
 
 //Authentication
 const bcrypt = require('bcrypt')
 
-app.get('/api', (req, res) => {
-    res.sendStatus(200)
+app.get('/api/user', async (req, res) => {
+    console.log('GET USER')
+    const userObj = req.query
+    if (!userObj) res.send({ err: 'Missing User Object' })
+    const account = await UserModel.findOne({ email: userObj.email })
+    if (!account) res.send({ err: 'Invalid Email' })
+    if (account) {
+        const valid = bcrypt.compareSync(userObj.password, account.pass_hash)
+        if (!valid) res.send({ err: 'Invalid Password' })
+        if (valid) res.send(account)
+    }
 })
 
 app.post('/api/user', async (req, res) => {
