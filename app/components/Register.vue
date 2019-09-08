@@ -26,6 +26,7 @@ export default {
     }),
     methods: {
         registerTap() {
+            console.log('registerTap invoked')
             const userObj = {
                 firstName: this.firstName,
                 lastName: this.lastName,
@@ -44,6 +45,7 @@ export default {
                     alert(err)
                 })
             })
+            .catch((err) => alert(err))
         },
         cancelTap() {
             this.$store.commit('setView', 'Login')
