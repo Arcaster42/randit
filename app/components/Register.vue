@@ -14,16 +14,33 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     data: () => ({
+        firstName: null,
+        lastName: null,
         username: null,
         email: null,
         password: null,
-        password2: null
+        password2: null,
     }),
     methods: {
         registerTap() {
-
+            const userObj = {
+                firstName: this.firstName,
+                lastName: this.lastName,
+                username: this.username,
+                email: this.email,
+                password: this.password
+            }
+            axios.post('http://192.168.1.6:3000/api/user', userObj)
+            .then((response) => {
+                if (response.data.err) alert(response.data.err)
+                else alert('Account Created')
+                .then(() => {
+                    this.$store.commit('setView', 'Login')
+                })
+            })
         },
         cancelTap() {
             this.$store.commit('setView', 'Login')
