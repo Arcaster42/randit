@@ -20,7 +20,12 @@ app.get('/api/user', async (req, res) => {
     console.log('GET USER')
     const userObj = req.query
     if (!userObj) res.send({ err: 'Missing User Object' })
-    const account = await UserModel.findOne({ email: userObj.email })
+    try {
+        const account = await UserModel.findOne({ email: userObj.email })
+    }
+    catch {
+        res.send({ err: 'Database Request Failed' })
+    }
     if (!account) res.send({ err: 'Invalid Email' })
     if (account) {
         const valid = bcrypt.compareSync(userObj.password, account.pass_hash)
@@ -33,7 +38,12 @@ app.post('/api/user', async (req, res) => {
     console.log('POST USER')
     const userObj = req.body
     if (!userObj) res.send({ err: 'Missing User Object' })
-    const search = await UserModel.findOne({ email: userObj.email })
+    try {
+        const search = await UserModel.findOne({ email: userObj.email })
+    }
+    catch {
+        res.send({ err: 'Database Request Failed' })
+    }
     if (search) res.send({ err: 'Email Unavailable' })
     if (!search) {
         const hash = bcrypt.hashSync(userObj.password, 10)
