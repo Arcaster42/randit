@@ -37,10 +37,6 @@ import Register from './Register'
     // End custom common variables
 
     // Custom styles
-    .fa {
-        color: $accent-dark;
-    }
-
     .info {
         font-size: 20;
     }
