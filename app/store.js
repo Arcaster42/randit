@@ -5,11 +5,20 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         view: 'Login',
-        username: null
+        user: {
+            email: 'dummy@dummy.com',
+            checkin: { active: false }
+        }
     },
     mutations: {
         setView(state, view) {
             state.view = view
+        },
+        setUser(state, user) {
+            state.user = user
+        },
+        setCheckin(state, checkin) {
+            state.user.checkin = checkin
         }
     }
 })
