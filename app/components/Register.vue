@@ -40,6 +40,9 @@ export default {
                 .then(() => {
                     this.$store.commit('setView', 'Login')
                 })
+                .catch((err) => {
+                    alert(err)
+                })
             })
         },
         cancelTap() {
