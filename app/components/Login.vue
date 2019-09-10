@@ -26,10 +26,10 @@ export default {
             axios.get('http://192.168.1.6:3000/api/user', { params: userObj })
             .then((response) => {
                 if (response.data.err) alert(response.data.err)
-                else {
-                    this.$store.commit('setUser', response.data)
-                    this.$store.commit('setView', 'Hub')
-                }
+                const user = response.data
+                console.log(user)
+                this.$store.commit('setUser', user)
+                this.$store.commit('setView', 'Hub')
             })
             .catch((err) => alert(err))
         },
