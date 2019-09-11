@@ -34,7 +34,7 @@ export default {
                 email: this.email,
                 password: this.password
             }
-            axios.post('http://192.168.1.6:3000/api/user', userObj)
+            axios.post('http://192.168.10.59:3000/api/user', userObj)
             .then((response) => {
                 if (response.data.err) alert(response.data.err)
                 else alert('Account Created')
