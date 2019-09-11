@@ -1,6 +1,7 @@
 import Vue from 'nativescript-vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
+import moment from 'moment'
 
 const store = new Vuex.Store({
     state: {
@@ -15,8 +16,11 @@ const store = new Vuex.Store({
         setUser(state, user) {
             state.user = user
         },
-        setCheckin(state, checkin) {
-            state.user.checkin = checkin
+        setCheckinStart(state) {
+            state.user.checkin.start = moment()
+        },
+        stopCheckin(state) {
+            state.user.checkin.active = false
         },
         setShowCheckin(state, value) {
             state.showCheckin = value
