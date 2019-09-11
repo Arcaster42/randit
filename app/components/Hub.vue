@@ -1,7 +1,8 @@
 <template>
     <FlexboxLayout class="layout">
-        <Button v-if="!getActive" class="btn btn-primary btn-active" :text="label" @tap="checkinTap"/>
-        <Checkin v-if='showCheckin'/>
+        <Button v-if="!getActive" class="btn btn-primary btn-active" :text="label" @tap="newTap"/>
+        <Button v-if="getActive" class="btn btn-primary btn-active" text="Check In" @tap="checkinTap"/>
+        <Checkin v-if='getShowCheckin'/>
         <Button class="btn btn-danger btn-active" text="Logout" @tap="logoutTap"/>
     </FlexboxLayout>
 </template>
@@ -24,6 +25,9 @@ export default {
     computed: {
         getActive() {
             return this.$store.state.user.checkin.active
+        },
+        getShowCheckin() {
+            return this.$store.state.showCheckin
         }
     },
     methods: {
@@ -31,16 +35,18 @@ export default {
             if (!this.$store.state.user.checkin.active) return 'New Check-In'
             if (this.$store.state.user.checkin.active) return 'Check-In'
         },
-        checkinTap() {
-            if (!this.$store.state.user.checkin.active && !this.showCheckin) {
-                this.showCheckin = true
+        newTap() {
+            if (!this.$store.state.user.checkin.active && !this.$store.state.showCheckin) {
+                this.$store.commit('setShowCheckin', true)
+                // this.showCheckin = true
                 this.label = 'Cancel Check-In'
-            } else
-            if (!this.$store.state.user.checkin.active && this.showCheckin) {
-                this.showCheckin = false
+            }
+            else if (!this.$store.state.user.checkin.active && this.$store.state.showCheckin) {
+                this.$store.commit('setShowCheckin', false)
+                // this.showCheckin = false
                 this.label = 'New Check-In'
-            } else
-            if (this.$store.state.user.checkin.active) {
+            }
+            else if (this.$store.state.user.checkin.active) {
                 const checkin = { active: false }
                 this.$store.commit('setCheckin', checkin)
             }
