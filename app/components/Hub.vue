@@ -11,6 +11,7 @@
 
 <script>
 import Checkin from './Checkin'
+import moment from 'moment'
 
 export default {
     components: {
@@ -32,7 +33,10 @@ export default {
             return this.$store.state.showCheckin
         },
         getDuration() {
-            return this.$store.state.user.checkin.timeleft
+                const start = this.$store.state.user.checkin.start
+                const duration = this.$store.state.user.checkin.timeleft
+                const difference = Math.ceil(duration - moment.duration(moment().diff(start)).asMinutes())
+                return `${difference} Minutes Remaining`
         }
     },
     methods: {
@@ -43,12 +47,10 @@ export default {
         newTap() {
             if (!this.$store.state.user.checkin.active && !this.$store.state.showCheckin) {
                 this.$store.commit('setShowCheckin', true)
-                // this.showCheckin = true
                 this.label = 'Cancel Check-In'
             }
             else if (!this.$store.state.user.checkin.active && this.$store.state.showCheckin) {
                 this.$store.commit('setShowCheckin', false)
-                // this.showCheckin = false
                 this.label = 'New Check-In'
             }
             else if (this.$store.state.user.checkin.active) {
@@ -56,9 +58,11 @@ export default {
                 this.$store.commit('setCheckin', checkin)
             }
         },
+        checkinTap() {
+            this.$store.commit('setCheckinStart')
+        },
         safeTap() {
-            const checkin = { active: false }
-            this.$store.commit('setCheckin', checkin)
+            this.$store.commit('stopCheckin')
         },
         logoutTap() {
             this.$store.commit('setView', 'Login')
@@ -70,6 +74,14 @@ export default {
 <style scoped>
     .input {
         width: 80%;
+    }
+
+    .label {
+        align-self: center;
+        text-align: center;
+        padding: 5px;
+        margin: 15px;
+        width: 100%;
     }
     
     .layout {
