@@ -1,7 +1,7 @@
 <template>
     <FlexboxLayout class="layout">
         <Label class="label" text="Duration"/>
-        <Button class="btn btn-primary btn-active" :text="duration" @tap="durationTap"/>
+        <Button class="btn btn-primary btn-active" :text="duration.toString()" @tap="durationTap"/>
         <Label class="label" text="Location"/>
         <TextField class="input" v-model="location"/>
         <Label class="label" text="Emergency Mesage"/>
@@ -11,6 +11,9 @@
 </template>
 
 <script>
+import axios from 'axios'
+import moment from 'moment'
+
 export default {
     data: () => ({
         location: null,
@@ -38,11 +41,33 @@ export default {
                 this.durations[4].option
             ])
             .then((result) => {
-                alert(result)
+                console.log(result)
+                const split = result.split(' ')
+                let time = parseInt(split[0])
+                if (split[1] === 'Hours') time *= 60
+                this.duration = time
             })
         },
         confirmTap () {
-            
+            const checkin = {
+                active: true,
+                start: moment(),
+                end: moment().add(this.duration, 'minutes'),
+                timeleft: moment.duration(this.duration, 'minutes').asMinutes(),
+                message: this.message
+            }
+            axios.post('http://192.168.10.59:3000/api/checkin', {
+                user: this.$store.state.user,
+                checkin
+            })
+            .then((result) => {
+                if (result.err) alert(err)
+                if (result.data) {
+                    this.$store.commit('setUser', result.data)
+                    this.$store.commit('setShowCheckin', false)
+                    alert('Check-In Created')
+                }
+            })
         }
     }
 }
