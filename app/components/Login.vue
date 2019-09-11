@@ -23,11 +23,11 @@ export default {
                 email: this.email,
                 password: this.password
             }
-            axios.get('http://192.168.1.6:3000/api/user', { params: userObj })
+            axios.get('http://192.168.10.59:3000/api/user', { params: userObj })
             .then((response) => {
                 if (response.data.err) alert(response.data.err)
                 const user = response.data
-                console.log(user)
+                console.log(user.checkin)
                 this.$store.commit('setUser', user)
                 this.$store.commit('setView', 'Hub')
             })
