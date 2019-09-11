@@ -62,10 +62,10 @@ app.get('/api/checkin', async (req, res) => {
 
 app.post('/api/checkin', (req, res) => {
     console.log('POST CHECKIN')
-    console.log(req.body)
+    // console.log(req.body)
     const userObj = req.body.user
     const checkinObj = req.body.checkin
-    console.log(checkinObj)
+    // console.log(checkinObj)
     UserModel.findOneAndUpdate({ emails: userObj.email }, { checkin: checkinObj }, (err, doc) => {
         if (err) res.send(err)
         else {
