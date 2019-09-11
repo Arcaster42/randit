@@ -11,10 +11,14 @@ const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:27017/randit', { useNewUrlParser: true })
 const db = mongoose.connection
 db.once('open', () => console.log('Connected to DB'))
+//Models
 const { UserModel } = require('./database/models')
 
 //Authentication
 const bcrypt = require('bcrypt')
+
+//Datetime
+const moment = require('moment')
 
 app.get('/api/user', async (req, res) => {
     console.log('GET USER')
@@ -50,6 +54,25 @@ app.post('/api/user', async (req, res) => {
             if (doc) res.send(doc)
         })
     }
+})
+
+app.get('/api/checkin', async (req, res) => {
+
+})
+
+app.post('/api/checkin', (req, res) => {
+    console.log('POST CHECKIN')
+    console.log(req.body)
+    const userObj = req.body.user
+    const checkinObj = req.body.checkin
+    console.log(checkinObj)
+    UserModel.findOneAndUpdate({ emails: userObj.email }, { checkin: checkinObj }, (err, doc) => {
+        if (err) res.send(err)
+        else {
+            userObj.checkin = checkinObj
+            res.send(userObj)
+        }
+    })
 })
 
 app.listen(port, () => console.log(`Listening on ${port}`))
