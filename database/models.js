@@ -6,7 +6,7 @@ const UserSchema = mongoose.Schema({
     username: String,
     email: String,
     pass_hash: String,
-    checkin: { active: Boolean, timeleft: Date, message: String }
+    checkin: { active: Boolean, start: Date, end: Date, timeleft: Number, message: String }
 })
 
 const UserModel = mongoose.model('User', UserSchema)
