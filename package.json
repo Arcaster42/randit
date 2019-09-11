@@ -9,6 +9,7 @@
     }
   },
   "scripts": {
+    "frontend": "tns preview",
     "backend": "yarn nodemon server"
   },
   "description": "NativeScript Application",
