@@ -1,7 +1,9 @@
 <template>
     <FlexboxLayout class="layout">
         <Button v-if="!getActive" class="btn btn-primary btn-active" :text="label" @tap="newTap"/>
+        <Label v-if="getActive" class="label" :text="getDuration"/>
         <Button v-if="getActive" class="btn btn-primary btn-active" text="Check In" @tap="checkinTap"/>
+        <Button v-if="getActive" class="btn btn-primary btn-active" text="Safe" @tap="safeTap"/>
         <Checkin v-if='getShowCheckin'/>
         <Button class="btn btn-danger btn-active" text="Logout" @tap="logoutTap"/>
     </FlexboxLayout>
@@ -28,6 +30,9 @@ export default {
         },
         getShowCheckin() {
             return this.$store.state.showCheckin
+        },
+        getDuration() {
+            return this.$store.state.user.checkin.timeleft
         }
     },
     methods: {
@@ -50,6 +55,10 @@ export default {
                 const checkin = { active: false }
                 this.$store.commit('setCheckin', checkin)
             }
+        },
+        safeTap() {
+            const checkin = { active: false }
+            this.$store.commit('setCheckin', checkin)
         },
         logoutTap() {
             this.$store.commit('setView', 'Login')
