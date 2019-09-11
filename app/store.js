@@ -5,6 +5,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         view: 'Login',
+        showCheckin: false,
         user: {}
     },
     mutations: {
@@ -16,6 +17,9 @@ const store = new Vuex.Store({
         },
         setCheckin(state, checkin) {
             state.user.checkin = checkin
+        },
+        setShowCheckin(state, value) {
+            state.showCheckin = value
         }
     }
 })
