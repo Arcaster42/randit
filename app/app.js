@@ -4,6 +4,8 @@ Vue.use(Vuex)
 import store from './store'
 import Home from "./components/Home";
 
+Vue.config.silent = false
+
 new Vue({
     store,
     template: `
