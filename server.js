@@ -8,6 +8,7 @@ const port = process.env.PORT || 3000
 
 //Database
 const mongoose = require('mongoose')
+mongoose.set('useFindAndModify', false)
 mongoose.connect('mongodb://localhost:27017/randit', { useNewUrlParser: true })
 const db = mongoose.connection
 db.once('open', () => console.log('Connected to DB'))
@@ -66,11 +67,12 @@ app.post('/api/checkin', (req, res) => {
     const userObj = req.body.user
     const checkinObj = req.body.checkin
     // console.log(checkinObj)
-    UserModel.findOneAndUpdate({ emails: userObj.email }, { checkin: checkinObj }, (err, doc) => {
+    UserModel.findOneAndUpdate({ email: userObj.email }, { $set: { checkin: checkinObj } }, { upsert: true, new: true }, (err, doc) => {
         if (err) res.send(err)
-        else {
-            userObj.checkin = checkinObj
-            res.send(userObj)
+        if (!doc) res.send({ err: 'Database Error' })
+        if (doc) {
+            // userObj.checkin = checkinObj
+            res.send(doc)
         }
     })
 })
