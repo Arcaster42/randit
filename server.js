@@ -6,6 +6,31 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 const port = process.env.PORT || 3000
 
+//Websocket Server
+const ws = require('ws').Server
+const socket = new ws({ port: 3001 })
+
+//Websocket Client Class
+class Clients {
+    construct() {
+        this.clientList = {}
+        this.saveClient = (email, clientSocket) => {
+            this.clientList[email] = clientSocket
+        }
+    }
+}
+
+//Websocket Logic
+const clients = new Clients()
+
+socket.on('connection', (clientSocket) => {
+    socket.on('message', (message) => {
+        console.log(message)
+        clients.saveClient(message, clientSocket)
+        clients.clientList[message].send('Login Registered')
+    })
+})
+
 //Database
 const mongoose = require('mongoose')
 mongoose.set('useFindAndModify', false)
@@ -63,15 +88,12 @@ app.get('/api/checkin', async (req, res) => {
 
 app.post('/api/checkin', (req, res) => {
     console.log('POST CHECKIN')
-    // console.log(req.body)
     const userObj = req.body.user
     const checkinObj = req.body.checkin
-    // console.log(checkinObj)
     UserModel.findOneAndUpdate({ email: userObj.email }, { $set: { checkin: checkinObj } }, { upsert: true, new: true }, (err, doc) => {
         if (err) res.send(err)
         if (!doc) res.send({ err: 'Database Error' })
         if (doc) {
-            // userObj.checkin = checkinObj
             res.send(doc)
         }
     })
