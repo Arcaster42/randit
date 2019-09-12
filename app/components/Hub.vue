@@ -11,6 +11,7 @@
 
 <script>
 import Checkin from './Checkin'
+import axios from 'axios'
 import moment from 'moment'
 
 export default {
@@ -45,24 +46,35 @@ export default {
             if (this.$store.state.user.checkin.active) return 'Check-In'
         },
         newTap() {
-            if (!this.$store.state.user.checkin.active && !this.$store.state.showCheckin) {
+            if (!this.$store.state.showCheckin) {
                 this.$store.commit('setShowCheckin', true)
                 this.label = 'Cancel Check-In'
             }
-            else if (!this.$store.state.user.checkin.active && this.$store.state.showCheckin) {
+            else if (this.$store.state.showCheckin) {
                 this.$store.commit('setShowCheckin', false)
                 this.label = 'New Check-In'
             }
-            else if (this.$store.state.user.checkin.active) {
-                const checkin = { active: false }
-                this.$store.commit('setCheckin', checkin)
-            }
+            // else if (this.$store.state.user.checkin.active) {
+            //     const checkin = { active: false }
+            //     this.$store.commit('setCheckin', checkin)
+            // }
         },
         checkinTap() {
             this.$store.commit('setCheckinStart')
         },
         safeTap() {
-            this.$store.commit('stopCheckin')
+            const checkin = {
+                active: false
+            }
+            axios.post('http://192.168.10.59:3000/api/checkin', {
+                user: this.$store.state.user,
+                checkin
+            })
+            .then((result) => {
+                console.log(result.data)
+                // this.$store.commit('setUser', result.data)
+            })
+            .catch((err) => alert(err))
         },
         logoutTap() {
             this.$store.commit('setView', 'Login')
