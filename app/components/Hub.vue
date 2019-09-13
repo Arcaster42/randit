@@ -24,7 +24,7 @@ export default {
                 const userObj = {
                     email: this.$store.state.user.email
                 }
-                axios.get('http://192.168.10.59:3000/api/checkin', {
+                axios.get('http://192.168.1.6:3000/api/checkin', {
                     params: userObj
                 })
                 .then((response) => {
@@ -85,7 +85,7 @@ export default {
 
             }
             this.$store.commit('setCheckinStart')
-            axios.post('http://192.168.10.59:3000/api/checkin', {
+            axios.post('http://192.168.1.6:3000/api/checkin', {
                 user: this.$store.state.user,
                 checkin
             })
@@ -97,7 +97,7 @@ export default {
             const checkin = {
                 active: false,
             }
-            axios.post('http://192.168.10.59:3000/api/checkin', {
+            axios.post('http://192.168.1.6:3000/api/checkin', {
                 user: this.$store.state.user,
                 checkin
             })
