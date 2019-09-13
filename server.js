@@ -73,7 +73,8 @@ app.post('/api/user', async (req, res) => {
             username: userObj.username,
             email: userObj.email,
             pass_hash: hash,
-            checkin: { active: false, timeleft: null, message: null }
+            checkin: { active: false, timeleft: null, message: null },
+            contacts: []
         })
         newUser.save((err, doc) => {
             if (err) res.send({ err })
