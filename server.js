@@ -83,14 +83,18 @@ app.post('/api/user', async (req, res) => {
 })
 
 app.get('/api/checkin', async (req, res) => {
-
+    console.log('GET CHECKIN')
+    console.log(req.query)
+    const userObj = req.query
+    let doc = await UserModel.findOne({ email: userObj.email })
+    if (doc) res.send(doc)
 })
 
 app.post('/api/checkin', (req, res) => {
     console.log('POST CHECKIN')
     const userObj = req.body.user
     const checkinObj = req.body.checkin
-    UserModel.findOneAndUpdate({ email: userObj.email }, { $set: { checkin: checkinObj } }, { upsert: true, new: true }, (err, doc) => {
+    UserModel.findOneAndUpdate({ email: userObj.email }, { 'checkin': checkinObj }, { upsert: true, new: true }, (err, doc) => {
         if (err) res.send(err)
         if (!doc) res.send({ err: 'Database Error' })
         if (doc) {
