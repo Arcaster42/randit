@@ -18,6 +18,22 @@ export default {
     components: {
         Checkin
     },
+    created () {
+        setInterval(() => {
+            if (this.$store.state.user.email && this.$store.state.user.checkin.active) {
+                const userObj = {
+                    email: this.$store.state.user.email
+                }
+                axios.get('http://192.168.10.59:3000/api/checkin', {
+                    params: userObj
+                })
+                .then((response) => {
+                    console.log(response.data)
+                    this.$store.commit('setUser', response.data)
+                })
+            }
+        }, 60000)
+    },
     data: () => ({
         label: 'New Checkin-In',
         showCheckin: false,
@@ -54,30 +70,28 @@ export default {
                 this.$store.commit('setShowCheckin', false)
                 this.label = 'New Check-In'
             }
-            // else if (this.$store.state.user.checkin.active) {
-            //     const checkin = { active: false }
-            //     this.$store.commit('setCheckin', checkin)
-            // }
         },
         checkinTap() {
             this.$store.commit('setCheckinStart')
         },
         safeTap() {
             const checkin = {
-                active: false
+                active: false,
             }
-            axios.post('http://192.168.1.6:3000/api/checkin', {
+            axios.post('http://192.168.10.59:3000/api/checkin', {
                 user: this.$store.state.user,
                 checkin
             })
             .then((result) => {
                 console.log(result.data)
-                // this.$store.commit('setUser', result.data)
+                this.$store.commit('setView', 'Login')
+                this.$store.commit('setUser', result.data)
             })
             .catch((err) => alert(err))
         },
         logoutTap() {
             this.$store.commit('setView', 'Login')
+            this.$store.commit('setUser', {})
         }
     }
 }
