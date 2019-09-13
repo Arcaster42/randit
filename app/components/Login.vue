@@ -3,7 +3,7 @@
         <Label alignSelf="center" text="E-Mail"/>
         <TextField class="input" alignSelf="center" v-model="email" hint="Enter E-mail"/>
         <Label alignSelf="center" text="Password"/>
-        <TextField class="input" alignSelf="center" v-model="password" hint="Enter Password"/>
+        <TextField class="input" alignSelf="center" secure="true" v-model="password" hint="Enter Password"/>
         <Button class="btn btn-primary btn-active" text="Login" @tap="loginTap"/>
         <Button class="btn btn-primary btn-active" text="Register" @tap="registerTap"/>
     </FlexboxLayout>
