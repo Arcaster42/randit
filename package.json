@@ -27,7 +27,6 @@
     "nativescript-websockets": "^1.5.4",
     "nodemon": "^1.19.2",
     "tns-core-modules": "~6.1.0",
-    "vue-native-websocket": "^2.0.13",
     "vuex": "^3.1.1",
     "websocket": "^1.0.29",
     "ws": "^7.1.2"
