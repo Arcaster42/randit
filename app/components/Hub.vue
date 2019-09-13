@@ -53,7 +53,11 @@ export default {
                 const start = this.$store.state.user.checkin.start
                 const duration = this.$store.state.user.checkin.timeleft
                 const difference = Math.ceil(duration - moment.duration(moment().diff(start)).asMinutes())
+                if (difference <= 0) return 'Check-In Missed - Alert Sent'
                 return `${difference} Minutes Remaining`
+        },
+        getMessage() {
+            return this.$store.state.user.checkin.message
         }
     },
     methods: {
@@ -72,7 +76,22 @@ export default {
             }
         },
         checkinTap() {
+            const checkin = {
+                active: true,
+                start: moment(),
+                end: moment().add(this.$store.state.user.checkin.timeleft),
+                timeleft: this.$store.state.user.checkin.timeleft,
+                message: this.$store.state.user.checkin.message
+
+            }
             this.$store.commit('setCheckinStart')
+            axios.post('http://192.168.10.59:3000/api/checkin', {
+                user: this.$store.state.user,
+                checkin
+            })
+            .then((result) => {
+                console.log(result.data)
+            })
         },
         safeTap() {
             const checkin = {
