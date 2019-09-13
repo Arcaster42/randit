@@ -2,9 +2,6 @@ import Vue from 'nativescript-vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 import moment from 'moment'
-// require('nativescript-websockets')
-
-// const socket = new WebSocket('ws://192.168.10.59:3001')
 
 const store = new Vuex.Store({
     state: {
