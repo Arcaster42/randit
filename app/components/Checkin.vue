@@ -56,7 +56,7 @@ export default {
                 timeleft: moment.duration(this.duration, 'minutes').asMinutes(),
                 message: this.message
             }
-            axios.post('http://192.168.1.6:3000/api/checkin', {
+            axios.post('http://192.168.10.59:3000/api/checkin', {
                 user: this.$store.state.user,
                 checkin
             })
