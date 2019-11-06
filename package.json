@@ -21,7 +21,7 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "moment": "^2.24.0",
-    "mongoose": "^5.6.13",
+    "mongoose": "^5.7.5",
     "nativescript-theme-core": "~1.0.6",
     "nativescript-vue": "~2.4.0",
     "nativescript-websockets": "^1.5.4",
